@@ -1,4 +1,4 @@
-package org.autocore.javacore.model;
+package org.autocore.java.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -45,7 +45,8 @@ public class User {
      * @param firstName
      * @param password
      */
-    public User(Integer id, String username, String firstName, String lastName, String email, String password, String phone, Integer userStatus) {
+    public User(Integer id, String username, String firstName, String lastName,
+                String email, String password, String phone, Integer userStatus) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;

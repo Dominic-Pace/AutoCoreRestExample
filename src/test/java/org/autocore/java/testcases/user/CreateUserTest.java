@@ -1,15 +1,10 @@
-package org.autocore.javacore.testcases.user;
+package org.autocore.java.testcases.user;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpDelete;
-import org.autocore.java.commons.utils.exception.RuntimeInterruptionException;
+import org.autocore.java.endpoint.UserEndpoint;
 import org.autocore.java.rest.CoreTest;
-import org.autocore.javacore.endpoint.UserEndpoint;
-import org.autocore.javacore.model.User;
+import org.autocore.java.model.User;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
-
-import java.io.IOException;
 
 /**
  * (C) Copyright 2016 Dominic Pace (https://github.com/Dominic-Pace)
@@ -27,6 +22,8 @@ import java.io.IOException;
  */
 public class CreateUserTest extends CoreTest {
 
+    private String username;
+
     @Test(dataProvider = "CoreDataProvider")
     public void createUserTest(User user) {
 
@@ -39,22 +36,19 @@ public class CreateUserTest extends CoreTest {
         user.setPhone("Phone");
         user.setUserStatus(0);
 
+        this.username = user.getUsername();
+
         UserEndpoint userEndpoint = new UserEndpoint(httpClient);
-        userEndpoint.createUser(user);
+        res = userEndpoint.createUser(user);
+
+        userEndpoint.assertValidResponse(res);
     }
 
     @AfterMethod
     public void cleanUp() {
-        HttpDelete delete = new HttpDelete("http://petstore.swagger.io/v2/user/dpace");
+        UserEndpoint userEndpoint = new UserEndpoint(httpClient);
 
-        try {
-            HttpResponse response = httpClient.execute(delete);
-
-            System.out.println(response.getStatusLine().getStatusCode());
-        } catch (IOException e) {
-            throw new RuntimeInterruptionException("Could not create String Entity for the new "
-                    + "user.");
-        }
-
+        res = userEndpoint.deleteUser(username);
+        userEndpoint.assertValidResponse(res);
     }
 }

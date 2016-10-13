@@ -1,14 +1,16 @@
-package org.autocore.javacore.endpoint;
+package org.autocore.java.endpoint;
 
 import com.google.gson.Gson;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.autocore.java.commons.utils.exception.RuntimeInterruptionException;
-import org.autocore.java.rest.Request;
 import org.autocore.java.rest.uri.CoreEndpoint;
-import org.autocore.javacore.model.User;
+import org.autocore.java.model.User;
+import org.autocore.java.rest.utils.Request;
 
 import java.io.IOException;
 
@@ -29,13 +31,18 @@ import java.io.IOException;
 public class UserEndpoint extends CoreEndpoint {
 
     public String userEndpoint;
+    public HttpEntity stringEntity;
 
-    private CloseableHttpClient httpClient;
-    private Request req;
     private Gson gson;
 
     public UserEndpoint(CloseableHttpClient httpClient) {
         this.httpClient = httpClient;
+        setUserEndpoint();
+    }
+
+    public UserEndpoint(CloseableHttpClient httpClient, HttpEntity stringEntity) {
+        this.httpClient = httpClient;
+        this.stringEntity = stringEntity;
         setUserEndpoint();
     }
 
@@ -50,12 +57,49 @@ public class UserEndpoint extends CoreEndpoint {
         req = new Request(httpClient, userEndpoint);
 
         try {
-            HttpEntity stringEntity = new StringEntity(gson.toJson(user));
+            stringEntity = new StringEntity(gson.toJson(user));
             return req.postRequest(stringEntity);
 
         } catch (IOException e) {
             throw new RuntimeInterruptionException("Could not create String Entity for the new "
                     + "user.");
+        }
+    }
+
+    /**
+     * Method used to Delete a User.
+     *
+     * @param username of the user to delete.
+     * @return Http Response
+     */
+    public HttpResponse deleteUser(String username) {
+        delete = new HttpDelete(userEndpoint + "/" + username);
+
+        try {
+            return httpClient.execute(delete);
+
+        } catch (IOException e) {
+            throw new RuntimeInterruptionException("Could not delete the user" + username);
+        }
+    }
+
+    /**
+     * Method used to Update a User.
+     *
+     * @param user object of the user to update.
+     * @return Http Response
+     */
+    public HttpResponse updateUser(User user) {
+        put = new HttpPut(userEndpoint + "/" + user.getUsername());
+
+        try {
+            stringEntity = new StringEntity(gson.toJson(user));
+
+            return req.putRequest(stringEntity);
+
+        } catch (IOException e) {
+            throw new RuntimeInterruptionException("Could not update the user"
+                    + user.getUsername());
         }
     }
 

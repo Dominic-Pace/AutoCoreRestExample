@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="JsonUnitTestCases" preserve-order="true" parallel="false">
+    <test name="createUser_83710">
+        <classes>
+            <class name="org.autocore.java.testcases.user.CreateUserTest"/>
+        </classes>
+    </test>
+</suite>
