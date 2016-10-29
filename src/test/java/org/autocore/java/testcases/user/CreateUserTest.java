@@ -1,10 +1,12 @@
 package org.autocore.java.testcases.user;
 
+import org.autocore.java.commons.utils.StringUtils;
 import org.autocore.java.endpoint.UserEndpoint;
-import org.autocore.java.rest.CoreTest;
 import org.autocore.java.model.User;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
+
+import java.io.IOException;
 
 /**
  * (C) Copyright 2016 Dominic Pace (https://github.com/Dominic-Pace)
@@ -20,23 +22,12 @@ import org.testng.annotations.Test;
  * Lesser General Public License for more details.
  *
  */
-public class CreateUserTest extends CoreTest {
-
-    private String username;
+public class CreateUserTest extends CoreUserTest {
 
     @Test(dataProvider = "CoreDataProvider")
     public void createUserTest(User user) {
 
-        user.setId(28020);
-        user.setUsername("dpace");
-        user.setPassword("welcome1!");
-        user.setFirstName("Dominic");
-        user.setLastName("Pace");
-        user.setEmail("dpace@nhpace.net");
-        user.setPhone("Phone");
-        user.setUserStatus(0);
-
-        this.username = user.getUsername();
+        this.friendlyName = user.getUsername();
 
         UserEndpoint userEndpoint = new UserEndpoint(httpClient);
         res = userEndpoint.createUser(user);
@@ -48,7 +39,7 @@ public class CreateUserTest extends CoreTest {
     public void cleanUp() {
         UserEndpoint userEndpoint = new UserEndpoint(httpClient);
 
-        res = userEndpoint.deleteUser(username);
+        res = userEndpoint.deleteUser(friendlyName);
         userEndpoint.assertValidResponse(res);
     }
 }

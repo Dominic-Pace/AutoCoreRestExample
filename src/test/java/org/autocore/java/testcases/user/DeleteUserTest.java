@@ -2,7 +2,6 @@ package org.autocore.java.testcases.user;
 
 import org.autocore.java.endpoint.UserEndpoint;
 import org.autocore.java.model.User;
-import org.autocore.java.rest.CoreTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -21,38 +20,22 @@ import org.testng.annotations.Test;
  * Lesser General Public License for more details.
  *
  */
-public class DeleteUserTest extends CoreTest {
-
-    private String username;
+public class DeleteUserTest extends CoreUserTest {
 
     @BeforeTest()
     public void testSetup() {
+        userEndpoint = new UserEndpoint(httpClient);
 
-        User user = new User();
+        user = new User();
 
-        user.setId(28020);
-        user.setUsername("dpace");
-        user.setPassword("welcome1!");
-        user.setFirstName("Dominic");
-        user.setLastName("Pace");
-        user.setEmail("dpace@nhpace.net");
-        user.setPhone("Phone");
-        user.setUserStatus(0);
-
-        this.username = user.getUsername();
-
-        UserEndpoint userEndpoint = new UserEndpoint(httpClient);
-
-        res = userEndpoint.createUser(user);
-
-        Assert.assertTrue(res.getStatusLine().getStatusCode() == 200);
+        userEndpoint.createUser(user);
     }
 
     @Test
     public void deleteUserTest() {
         UserEndpoint userEndpoint = new UserEndpoint(httpClient);
 
-        res = userEndpoint.deleteUser(username);
+        res = userEndpoint.deleteUser(friendlyName);
 
         Assert.assertTrue(res.getStatusLine().getStatusCode() == 200);
     }

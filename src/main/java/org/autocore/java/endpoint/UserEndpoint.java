@@ -36,11 +36,13 @@ public class UserEndpoint extends CoreEndpoint {
     private Gson gson;
 
     public UserEndpoint(CloseableHttpClient httpClient) {
+        super(httpClient);
         this.httpClient = httpClient;
         setUserEndpoint();
     }
 
     public UserEndpoint(CloseableHttpClient httpClient, HttpEntity stringEntity) {
+        super(httpClient);
         this.httpClient = httpClient;
         this.stringEntity = stringEntity;
         setUserEndpoint();
