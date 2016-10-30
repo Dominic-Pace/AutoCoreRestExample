@@ -18,7 +18,7 @@ import org.autocore.java.commons.utils.StringUtils;
  */
 public class ModelGenerator {
 
-    protected static User generateRandomUser() {
+    public static User generateRandomUser() {
         return new User(Integer.valueOf(StringUtils.createRandomNumericValue(5)),
                 StringUtils.createRandomAlphaNumeric(11),
                 StringUtils.createRandomAlphabetic(),

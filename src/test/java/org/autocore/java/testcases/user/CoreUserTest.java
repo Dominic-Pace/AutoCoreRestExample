@@ -1,11 +1,8 @@
 package org.autocore.java.testcases.user;
 
 import org.autocore.java.endpoint.UserEndpoint;
-import org.autocore.java.model.ModelGenerator;
 import org.autocore.java.model.User;
-import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.autocore.java.rest.CoreTest;
 
 /**
  * (C) Copyright 2016 Dominic Pace (https://github.com/Dominic-Pace)
@@ -21,24 +18,14 @@ import org.testng.annotations.Test;
  * Lesser General Public License for more details.
  *
  */
-public class DeleteUserTest extends CoreUserTest {
+public class CoreUserTest extends CoreTest {
 
-    @BeforeTest()
-    public void testSetup() {
-        userEndpoint = new UserEndpoint(httpClient);
-        User newUser = ModelGenerator.generateRandomUser();
+    protected UserEndpoint userEndpoint;
+    protected User user;
+    protected String friendlyName;
 
-        userEndpoint.createUser(newUser);
-
-        friendlyName = newUser.getUsername();
+    protected void setFriendlyName(String friendlyName) {
+        this.friendlyName = friendlyName;
     }
 
-    @Test
-    public void deleteUserTest() {
-        UserEndpoint userEndpoint = new UserEndpoint(httpClient);
-
-        res = userEndpoint.deleteUser(friendlyName);
-
-        userEndpoint.assertValidResponse(res);
-    }
 }

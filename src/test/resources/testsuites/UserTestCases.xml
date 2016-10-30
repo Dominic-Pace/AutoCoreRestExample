@@ -6,4 +6,10 @@
             <class name="org.autocore.java.testcases.user.CreateUserTest"/>
         </classes>
     </test>
+
+    <test name="deleteUser_TicketNumber">
+        <classes>
+            <class name="org.autocore.java.testcases.user.DeleteUserTest"/>
+        </classes>
+    </test>
 </suite>
