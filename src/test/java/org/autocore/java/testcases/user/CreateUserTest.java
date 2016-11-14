@@ -1,12 +1,10 @@
 package org.autocore.java.testcases.user;
 
-import org.autocore.java.commons.utils.StringUtils;
 import org.autocore.java.endpoint.UserEndpoint;
 import org.autocore.java.model.User;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 
 /**
  * (C) Copyright 2016 Dominic Pace (https://github.com/Dominic-Pace)
